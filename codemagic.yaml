@@ -1,21 +1,14 @@
 workflows:
-  ios-maui:
-    name: MAUI iOS Build Clean
+  ios-maui-build:
+    name: Build .NET MAUI iOS App
     environment:
-      xcode: latest
+      xcode: 15.2
       vars:
         DOTNET_VERSION: 8.0.203
     scripts:
-      - name: Installing .NET SDK
-        script: |
-          brew install --cask dotnet-sdk
-          export PATH="/usr/local/share/dotnet:$PATH"
-          dotnet --version
-      - name: Install MAUI workload
-        script: |
-          dotnet workload install maui --source https://api.nuget.org/v3/index.json --skip-manifest-update --disable-parallel
-      - name: Build .NET MAUI iOS App
-        script: |
-          dotnet build MauiApp2.sln -f:net8.0-ios -c Release
+      - name: Show .NET version
+        script: dotnet --info
+      - name: Build iOS App
+        script: dotnet build MauiApp2.sln -f net8.0-ios -c Release
     artifacts:
-      - "**/bin/**/*.ipa"
+      - "**/*.ipa"
