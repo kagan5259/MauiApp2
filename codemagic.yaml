@@ -1,6 +1,6 @@
 workflows:
   ios-maui:
-    name: MAUI Build for iOS (with Homebrew)
+    name: MAUI Build for iOS with Fix
     environment:
       xcode: latest
     scripts:
@@ -8,8 +8,11 @@ workflows:
       - brew install --cask dotnet-sdk
       - export PATH="/usr/local/share/dotnet:$PATH"
       - dotnet --info
-      - dotnet workload install maui
+      - echo "Restoring MAUI workload"
       - dotnet workload restore
+      - echo "Installing MAUI workload (safe mode)"
+      - dotnet workload install maui --skip-manifest-update --from-rollback-file
+      - echo "Building the project"
       - dotnet build MauiApp2.sln -c Release -f:net8.0-ios
     artifacts:
       - "**/bin/**/*.ipa"
