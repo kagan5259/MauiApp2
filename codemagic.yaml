@@ -1,16 +1,13 @@
 workflows:
-  ios-maui-build:
-    name: Build .NET MAUI for iOS
+  ios-maui:
+    name: .NET MAUI iOS Build
     environment:
       xcode: latest
       vars:
-        DOTNET_VERSION: 8.0.204
+        DOTNET_ROOT: /usr/local/share/dotnet
+        PATH: /usr/local/share/dotnet:/opt/homebrew/bin:/usr/local/bin:$PATH
     scripts:
-      - echo "Installing .NET..."
-      - curl -sSL https://dot.net/v1/dotnet-install.sh | bash -s -- --version $DOTNET_VERSION --install-dir /usr/local/share/dotnet
-      - export PATH="/usr/local/share/dotnet:$PATH"
       - dotnet --info
-      - dotnet workload install maui
       - dotnet workload restore
       - dotnet build MauiApp2.sln -c Release -f:net8.0-ios
     artifacts:
