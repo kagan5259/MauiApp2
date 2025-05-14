@@ -7,8 +7,9 @@ workflows:
         DOTNET_VERSION: 8.0.204
     scripts:
       - echo "Installing .NET..."
-      - curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version $DOTNET_VERSION
-      - export PATH="$PATH:$HOME/.dotnet"
+      - curl -sSL https://dot.net/v1/dotnet-install.sh | bash -s -- --version $DOTNET_VERSION --install-dir /usr/local/share/dotnet
+      - export PATH="/usr/local/share/dotnet:$PATH"
+      - dotnet --info
       - dotnet workload install maui
       - dotnet workload restore
       - dotnet build MauiApp2.sln -c Release -f:net8.0-ios
